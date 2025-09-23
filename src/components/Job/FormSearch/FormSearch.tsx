@@ -1,7 +1,5 @@
-// components/Job/FormSearch/FormSearch.tsx
 'use client';
 
-import { useState } from 'react';
 import { Formik, Form, Field } from 'formik';
 
 interface JobSearchFormProps {

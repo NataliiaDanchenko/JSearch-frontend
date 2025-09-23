@@ -1,6 +1,6 @@
 'use client';
 
-import { Job } from '@/libs/jobsMapper';
+import { Job } from '@/types/jobsMapper';
 import JobCard from '@/components/Job/JobCard/JobCard';
 
 interface JobListProps {

@@ -1,4 +1,3 @@
-//import JobList from '@/components/Job/JobList/JobList';
 import JobsSearchPage from '@/components/Job/JobSearch/JobSearch';
 import Link from 'next/link';
 

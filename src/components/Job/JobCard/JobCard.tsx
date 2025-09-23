@@ -1,8 +1,7 @@
 'use client';
 
-// components/Job/JobCard/JobCard.tsx
 import React from 'react';
-import { Job } from '@/libs/jobsMapper';
+import { Job } from '@/types/jobsMapper';
 import Link from 'next/link';
 import { useLikes } from '@/hooks/useLikes';
 
@@ -60,7 +59,7 @@ const JobCard: React.FC<JobCardProps> = ({ job }) => {
             liked ? 'bg-red-500 text-white' : 'bg-gray-200 text-gray-800'
           } hover:bg-opacity-80`}
         >
-          {liked ? 'Убрать лайк' : 'Лайк'}
+          {liked ? 'Delete like' : 'Like'}
         </button>
       </div>
     </div>

@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState, useEffect, useMemo } from 'react';
-import { mapApiJobToJob, Job } from '@/libs/jobsMapper';
+import { mapApiJobToJob, Job } from '@/types/jobsMapper';
 import JobList from '@/components/Job/JobList/JobList';
 import JobSearchForm from '@/components/Job/FormSearch/FormSearch';
 import { useJobs } from '@/hooks/useJobs';
@@ -9,10 +9,9 @@ import { useProfile } from '@/hooks/useProfile';
 
 function JobsSearchComponent() {
   const { profile } = useProfile();
-  const [searchQuery, setSearchQuery] = useState<string>(''); // Для ручного поиска
-  const [recommendedQuery, setRecommendedQuery] = useState<string | null>(null); // Для рекомендаций
+  const [searchQuery, setSearchQuery] = useState<string>(''); 
+  const [recommendedQuery, setRecommendedQuery] = useState<string | null>(null); 
 
-  // Устанавливаем recommendedQuery только если оно реально изменилось
   useEffect(() => {
     const desiredTitle = profile?.desiredJobTitle || null;
     if (desiredTitle !== recommendedQuery) {
@@ -20,21 +19,18 @@ function JobsSearchComponent() {
     }
   }, [profile, recommendedQuery]);
 
-  // Запрос для результатов поиска
   const {
     jobs: searchJobs,
     isLoading: isSearchLoading,
     isError: isSearchError,
   } = useJobs(searchQuery);
 
-  // Запрос для рекомендаций
   const {
     jobs: recommendedJobs,
     isLoading: isRecommendedLoading,
     isError: isRecommendedError,
   } = useJobs(recommendedQuery || '');
 
-  // Мемоизация результатов, чтобы не пересоздавать массивы каждый рендер
   const mappedSearchJobs: Job[] = useMemo(
     () => searchJobs.map(mapApiJobToJob),
     [searchJobs],
@@ -48,7 +44,6 @@ function JobsSearchComponent() {
     setSearchQuery(newQuery);
   };
 
-  // Лог для разработки, можно удалить позже
   useEffect(() => {
     console.log(
       'JobsSearch: searchQuery:',
@@ -125,39 +120,5 @@ function JobsSearchComponent() {
   );
 }
 
-// Оборачиваем в React.memo, чтобы предотвратить лишние ререндеры от родителя
 export default React.memo(JobsSearchComponent);
 
-// // components/JobsSearch.tsx
-// 'use client';
-
-// import { useState } from 'react';
-// import { mapApiJobToJob, Job } from '@/libs/jobsMapper';
-// import JobList from '@/components/Job/JobList/JobList';
-// import JobSearchForm from '@/components/Job/FormSearch/FormSearch';
-// import { useJobs } from '@/hooks/useJobs';
-// import { useProfile } from '@/hooks/useProfile';
-
-// export default function JobsSearch() {
-//   const { profile } = useProfile();
-//   const [query, setQuery] = useState(profile?.desiredJobTitle || '');
-//   const { jobs: apiJobs, isLoading, isError, isValidating } = useJobs(query);
-
-//   const jobs: Job[] = apiJobs.map(mapApiJobToJob);
-
-//   const handleSearch = (newQuery: string) => {
-//     setQuery(newQuery);
-//   };
-
-//   return (
-//     <div className="p-4 max-w-6xl mx-auto">
-//       <h1 className="text-2xl font-bold mb-4">
-//         {profile ? 'Рекомендовані вакансії' : 'Пошук вакансій'}
-//       </h1>
-//       <JobSearchForm onSearch={handleSearch} initialQuery={query} />
-//       {isLoading && <p>Завантаження...</p>}
-//       {isError && <p className="text-red-500">Помилка при завантаженні вакансій</p>}
-//       <JobList jobs={jobs} />
-//     </div>
-//   );
-// }

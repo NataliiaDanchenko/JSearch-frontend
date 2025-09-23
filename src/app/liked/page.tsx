@@ -1,4 +1,3 @@
-// app/liked/page.tsx
 'use client';
 
 import { useLikes } from '@/hooks/useLikes';

@@ -1,4 +1,3 @@
-// app/create-profile/page.tsx
 'use client';
 
 import { useProfile } from '@/hooks/useProfile';

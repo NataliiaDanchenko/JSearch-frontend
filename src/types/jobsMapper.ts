@@ -21,6 +21,5 @@ export const mapApiJobToJob = (apiJob: ApiJob): Job => ({
   url: apiJob.apply_link,
   image: apiJob.employer_logo,
   employmentType: apiJob.job_employment_type,
-  //salary: apiJob.salary,
 });
 

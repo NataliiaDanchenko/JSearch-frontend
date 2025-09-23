@@ -1,7 +1,6 @@
-// app/api/jobs/route.ts
 import { NextRequest, NextResponse } from 'next/server';
 import axios from 'axios';
-import { ApiJob } from '@/libs/apiJobInterface';
+import { ApiJob } from '@/types/apiJobInterface';
 
 export async function GET(request: NextRequest) {
   const { searchParams } = new URL(request.url);
@@ -23,13 +22,12 @@ export async function GET(request: NextRequest) {
   }
 
   try {
-    // убедимся, что URL всегда правильный
     const url = `https://${apiHost}/search`;
 
     const response = await axios.get(url, {
       params: {
         query,
-        page: 1,       // можно указать дополнительные параметры
+        page: 1,       
         num_pages: 1,
         country: 'us',
         date_posted: 'all',
@@ -40,7 +38,6 @@ export async function GET(request: NextRequest) {
       },
     });
 
-    // response.data.data — массив вакансий
     const jobs: ApiJob[] = response.data?.data ?? [];
     return NextResponse.json(jobs);
   } catch (err) {

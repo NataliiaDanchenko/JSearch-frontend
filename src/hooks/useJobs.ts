@@ -1,12 +1,12 @@
 'use client';
 
 import useSWR from "swr";
-import { ApiJob } from "@/libs/apiJobInterface";
+import { ApiJob } from "@/types/apiJobInterface";
 
 const fetcher = async (url: string): Promise<ApiJob[]> => {
   const res = await fetch(url);
   if (!res.ok) {
-    throw new Error(`Ошибка сервера: ${res.statusText}`);
+    throw new Error(`Server error: ${res.statusText}`);
   }
   return res.json();
 };

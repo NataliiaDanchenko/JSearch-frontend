@@ -1,13 +1,11 @@
-// hooks/useLikes.ts
 'use client';
 
 import { useState, useEffect } from 'react';
-import { Job } from '@/libs/jobsMapper';
+import { Job } from '@/types/jobsMapper';
 
 export function useLikes() {
   const [likedJobs, setLikedJobs] = useState<Job[]>([]);
 
-  // Загружаем лайки из LocalStorage при монтировании
   useEffect(() => {
     const storedLikes = localStorage.getItem('likedJobs');
     if (storedLikes) {
@@ -15,7 +13,6 @@ export function useLikes() {
     }
   }, []);
 
-  // Сохраняем лайки в LocalStorage при изменении
   useEffect(() => {
     if (likedJobs.length > 0) {
       localStorage.setItem('likedJobs', JSON.stringify(likedJobs));
@@ -24,20 +21,17 @@ export function useLikes() {
     }
   }, [likedJobs]);
 
-  // Добавление вакансии в лайки
   const addLike = (job: Job) => {
     setLikedJobs((prev) => {
-      if (prev.some((j) => j.id === job.id)) return prev; // Избегаем дубликатов
+      if (prev.some((j) => j.id === job.id)) return prev; 
       return [...prev, job];
     });
   };
 
-  // Удаление вакансии из лайков
   const removeLike = (jobId: string) => {
     setLikedJobs((prev) => prev.filter((j) => j.id !== jobId));
   };
 
-  // Проверка, лайкнута ли вакансия
   const isLiked = (jobId: string) => likedJobs.some((j) => j.id === jobId);
 
   return { likedJobs, addLike, removeLike, isLiked };

@@ -1,5 +1,3 @@
-
-//ApiJob интерфейс
 export interface ApiJob {
   job_id: string;
   job_title: string;
@@ -9,5 +7,4 @@ export interface ApiJob {
   apply_link: string;
   employer_logo?: string;
   job_employment_type?: string;
-  //salary?: string;
 }
