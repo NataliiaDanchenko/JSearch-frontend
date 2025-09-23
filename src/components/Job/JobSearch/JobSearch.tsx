@@ -9,8 +9,8 @@ import { useProfile } from '@/hooks/useProfile';
 
 function JobsSearchComponent() {
   const { profile } = useProfile();
-  const [searchQuery, setSearchQuery] = useState<string>(''); 
-  const [recommendedQuery, setRecommendedQuery] = useState<string | null>(null); 
+  const [searchQuery, setSearchQuery] = useState<string>('');
+  const [recommendedQuery, setRecommendedQuery] = useState<string | null>(null);
 
   useEffect(() => {
     const desiredTitle = profile?.desiredJobTitle || null;
@@ -83,7 +83,7 @@ function JobsSearchComponent() {
             !isSearchLoading &&
             !isSearchError && (
               <p className='text-gray-600'>
-                Немає результатів для "{searchQuery}"
+                {`Немає результатів для "${searchQuery}"`}
               </p>
             )}
           {mappedSearchJobs.length > 0 && <JobList jobs={mappedSearchJobs} />}
@@ -108,7 +108,7 @@ function JobsSearchComponent() {
             !isRecommendedLoading &&
             !isRecommendedError && (
               <p className='text-gray-600'>
-                Немає рекомендацій для "{recommendedQuery}"
+                {`Немає рекомендацій для "${recommendedQuery}"`}
               </p>
             )}
           {mappedRecommendedJobs.length > 0 && (
@@ -121,4 +121,3 @@ function JobsSearchComponent() {
 }
 
 export default React.memo(JobsSearchComponent);
-

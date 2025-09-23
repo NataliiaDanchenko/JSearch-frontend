@@ -4,6 +4,7 @@ import React from 'react';
 import { Job } from '@/types/jobsMapper';
 import Link from 'next/link';
 import { useLikes } from '@/hooks/useLikes';
+import Image from 'next/image';
 
 interface JobCardProps {
   job: Job;
@@ -22,22 +23,27 @@ const JobCard: React.FC<JobCardProps> = ({ job }) => {
   };
 
   console.log('JobCard: Данные вакансии:', job);
+
   return (
     <div className='border rounded-lg shadow hover:shadow-lg transition p-4 flex flex-col'>
-      <img
-        src={job.image}
-        alt={job.title}
-        className='w-full h-40 object-cover rounded mb-4'
-        onError={(e) => {
-          e.currentTarget.src = '/default-logo.png';
-        }}
-      />
+      <div className='w-full h-40 relative mb-4'>
+        <Image
+          src={job.image || '/default-logo.png'}
+          alt={job.title}
+          fill
+          className='object-cover rounded'
+          onError={(e) => {
+            (e.currentTarget as HTMLImageElement).src = '/default-logo.png';
+          }}
+        />
+      </div>
       <h3 className='text-lg font-bold mb-1'>{job.title}</h3>
       <p className='text-gray-600 mb-1'>{job.company}</p>
       <p className='text-gray-500 mb-1'>{job.location}</p>
       <p className='text-gray-500 mb-1'>Тип: {job.employmentType}</p>
       <p className='text-gray-500 mb-1'>Зарплата: {job.salary}</p>
       <p className='text-gray-700 mb-4 line-clamp-3'>{job.description}</p>
+
       <div className='mt-auto flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2'>
         <a
           href={job.url}
@@ -51,7 +57,7 @@ const JobCard: React.FC<JobCardProps> = ({ job }) => {
           href={`/job-details/${encodeURIComponent(job.id)}`}
           className='bg-gray-200 text-gray-800 px-3 py-1 rounded hover:bg-gray-300'
         >
-          Детали
+          Деталі
         </Link>
         <button
           onClick={handleLike}

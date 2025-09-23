@@ -34,7 +34,7 @@ export default function CreateProfilePage() {
           <Form className='space-y-4'>
             <div>
               <label htmlFor='name' className='block text-sm font-medium'>
-                Ім'я
+                Ім&apos;я
               </label>
               <Field
                 id='name'

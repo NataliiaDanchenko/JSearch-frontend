@@ -22,6 +22,22 @@ const LoginForm = () => {
     });
   };
 
+  const getErrorMessage = (err: unknown): string => {
+    if (
+      err &&
+      typeof err === 'object' &&
+      'response' in err &&
+      (err as { response?: unknown }).response &&
+      typeof (err as { response: unknown }).response === 'object' &&
+      'data' in (err as { response: { data?: unknown } }).response!
+    ) {
+      const res = (err as { response: { data?: { message?: string } } })
+        .response;
+      return res.data?.message ?? 'Login failed';
+    }
+    return 'Login failed';
+  };
+
   return (
     <div className='max-w-md mx-auto mt-10 p-6 bg-white shadow rounded'>
       <h2 className='text-2xl font-bold mb-4'>Login</h2>
@@ -72,7 +88,7 @@ const LoginForm = () => {
 
       {isError && (
         <div className='mt-4 text-center text-red-500'>
-          {(error as any)?.response?.data?.message || 'Login failed'}
+          {getErrorMessage(error)}
         </div>
       )}
 
