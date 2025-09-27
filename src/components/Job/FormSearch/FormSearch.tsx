@@ -14,17 +14,17 @@ export default function JobSearchForm({ onSearch, initialQuery }: JobSearchFormP
       onSubmit={(values) => onSearch(values.query)}
     >
       {() => (
-        <Form className="mb-4">
-          <div className="flex gap-2">
+        <Form className='mb-4'>
+          <div className='flex flex-col sm:flex-row gap-2'>
             <Field
-              name="query"
-              type="text"
-              placeholder="Введіть назву вакансії (наприклад, developer)"
-              className="w-full p-2 border rounded"
+              name='query'
+              type='text'
+              placeholder='Назва вакансії'
+              className='w-full sm:flex-1 max-w-lg p-2 border rounded'
             />
             <button
-              type="submit"
-              className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
+              type='submit'
+              className='w-full sm:w-auto bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600'
             >
               Пошук
             </button>

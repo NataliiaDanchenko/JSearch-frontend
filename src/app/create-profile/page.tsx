@@ -25,9 +25,10 @@ export default function CreateProfilePage() {
           about: profile?.about || '',
         }}
         validationSchema={ProfileSchema}
-        onSubmit={(values) => {
+        onSubmit={(values, { resetForm }) => {
           saveProfile(values);
           alert('Профіль збережено!');
+          resetForm(); 
         }}
       >
         {() => (

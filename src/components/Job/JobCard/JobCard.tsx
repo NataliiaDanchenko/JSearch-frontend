@@ -8,9 +8,10 @@ import Image from 'next/image';
 
 interface JobCardProps {
   job: Job;
+  detailed?: boolean; 
 }
 
-const JobCard: React.FC<JobCardProps> = ({ job }) => {
+const JobCard: React.FC<JobCardProps> = ({ job, detailed = false }) => {
   const { addLike, removeLike, isLiked } = useLikes();
   const liked = isLiked(job.id);
 
@@ -22,27 +23,39 @@ const JobCard: React.FC<JobCardProps> = ({ job }) => {
     }
   };
 
-  console.log('JobCard: Данные вакансии:', job);
-
   return (
     <div className='border rounded-lg shadow hover:shadow-lg transition p-4 flex flex-col'>
-      <div className='w-full h-40 relative mb-4'>
+      <div className='w-full mb-4 relative aspect-[4/3] overflow-hidden rounded'>
         <Image
-          src={job.image || '/default-logo.png'}
-          alt={job.title}
+          src={job.image && job.image !== '' ? job.image : '/vercel.webp'}
+          alt={job.title || 'Job Image'}
           fill
-          className='object-cover rounded'
-          onError={(e) => {
-            (e.currentTarget as HTMLImageElement).src = '/default-logo.png';
-          }}
+          className='object-cover'
+          sizes='(max-width: 768px) 100vw, 400px' 
         />
       </div>
+
       <h3 className='text-lg font-bold mb-1'>{job.title}</h3>
       <p className='text-gray-600 mb-1'>{job.company}</p>
       <p className='text-gray-500 mb-1'>{job.location}</p>
       <p className='text-gray-500 mb-1'>Тип: {job.employmentType}</p>
-      <p className='text-gray-500 mb-1'>Зарплата: {job.salary}</p>
-      <p className='text-gray-700 mb-4 line-clamp-3'>{job.description}</p>
+
+      {!detailed && (
+        <p className='text-gray-700 mb-4 line-clamp-3'>{job.description}</p>
+      )}
+
+      {detailed && (
+        <div className='mt-4 space-y-3'>
+          <h2 className='text-lg font-bold'>Опис вакансії</h2>
+          <p className='text-gray-700 whitespace-pre-wrap'>{job.description}</p>
+          <p className='text-gray-600'>
+            <strong>Компанія:</strong> {job.company}
+          </p>
+          <p className='text-gray-600'>
+            <strong>Місце розташування:</strong> {job.location}
+          </p>
+        </div>
+      )}
 
       <div className='mt-auto flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2'>
         <a
@@ -50,15 +63,20 @@ const JobCard: React.FC<JobCardProps> = ({ job }) => {
           target='_blank'
           rel='noopener noreferrer'
           className='bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600'
+          onClick={() => {
+            alert('Application submitted');
+          }}
         >
-          Подать заявку
+          Apply
         </a>
-        <Link
-          href={`/job-details/${encodeURIComponent(job.id)}`}
-          className='bg-gray-200 text-gray-800 px-3 py-1 rounded hover:bg-gray-300'
-        >
-          Деталі
-        </Link>
+        {!detailed && (
+          <Link
+            href={`/job-details/${encodeURIComponent(job.id)}`}
+            className='bg-gray-200 text-gray-800 px-3 py-1 rounded hover:bg-gray-300'
+          >
+            Деталі
+          </Link>
+        )}
         <button
           onClick={handleLike}
           className={`px-3 py-1 rounded ${
