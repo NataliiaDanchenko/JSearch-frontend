@@ -7,6 +7,7 @@ import JobSearchForm from '@/components/Job/FormSearch/FormSearch';
 import { useJobs } from '@/hooks/useJobs';
 import { useProfile } from '@/hooks/useProfile';
 
+
 function JobsSearchComponent() {
   const { profile } = useProfile();
   const [searchQuery, setSearchQuery] = useState<string>('');
